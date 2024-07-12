@@ -87,7 +87,7 @@ subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2
 
 
 
-The best two regressor model to predict weight is Height ~ Width 
+The best two regressor model to predict weight is Height and Width 
 
 ### Best Two regressor model
 
@@ -100,12 +100,91 @@ summary.lm(Perch2)
 
 ### Best Models
 
+```{r}
+pikemodel = lm(Weight~ ., data=Pike)
+summary.lm(pikemodel)
+```
+
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Pike,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+
+
 ### Best Two regressor model
+
+
+```{r}
+Pike2=lm(Weight~Length1+Length3,data=Pike)
+summary.lm(Pike2)
+```
+
+
+The best model was length1 and length3
 
 ## Roach
 
 ### Best Models
 
+
+```{r}
+roachmodel = lm(Weight~ ., data=Roach)
+summary.lm(roachmodel)
+```
+
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Roach,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+
+
 ### Best Two regressor model
 
+
+```{r}
+roach2=lm(Weight~Length3+Width,data=Roach)
+summary.lm(roach2)
+```
+
+The best regressor model was Length3 and Width
+
+
 ## Final Summary Statements
+
+
+The best regressor model for Pike was  length1 and length3
+
+The best regressor model for Perch was Height and Width 
+
+The best regressor model for roach was  Length3 and Width
+
+
+
+
+
